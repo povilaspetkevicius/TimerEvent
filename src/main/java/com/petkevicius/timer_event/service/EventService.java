@@ -36,8 +36,8 @@ public class EventService {
     }
 
 
-    public Event findEvent(Optional<String> id) throws EventNotFoundException {
-        Optional<Event> event = id.flatMap(s -> repository.findById(s));
+    public Event findEvent(String id) throws EventNotFoundException {
+        Optional<Event> event = repository.findById(id);
         return event.orElseThrow(EventNotFoundException::new);
     }
 

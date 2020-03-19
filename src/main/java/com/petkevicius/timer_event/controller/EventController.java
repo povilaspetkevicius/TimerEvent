@@ -1,6 +1,5 @@
 package com.petkevicius.timer_event.controller;
 
-import com.petkevicius.timer_event.exception.DataNotProvidedException;
 import com.petkevicius.timer_event.exception.EventNotFoundException;
 import com.petkevicius.timer_event.model.Event;
 import com.petkevicius.timer_event.service.EventService;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -33,21 +31,16 @@ public class EventController {
         try {
             return ResponseEntity.status(200).body(service.findAllEvents());
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error!", e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something unexpected happened...", e);
         }
     }
 
     @GetMapping(path = "/events/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Event> findEvent(@PathVariable(name = "id") Optional<String> id) {
+    public ResponseEntity<Event> findEvent(@PathVariable(name = "id") String id) {
         try {
-            if (id.isPresent()) {
-                return ResponseEntity.status(HttpStatus.OK).body(service.findEvent(id));
-            } else {
-                throw new DataNotProvidedException();
-            }
-        } catch (DataNotProvidedException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id not provided!", e);
+            return ResponseEntity.status(HttpStatus.OK).body(service.findEvent(id));
+
         } catch (EventNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found!", e);
         }
@@ -64,7 +57,6 @@ public class EventController {
                 .path("/{id}")
                 .buildAndExpand(savedEvent.getId())
                 .toUri();
-        System.out.println(location.toASCIIString());
         return ResponseEntity.created(location).body(savedEvent);
     }
 
@@ -86,8 +78,6 @@ public class EventController {
             service.deleteEvent(id);
         } catch (EventNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Event not found!", e);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error!", e);
         }
     }
 
