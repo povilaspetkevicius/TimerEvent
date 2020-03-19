@@ -1,5 +1,8 @@
 package com.petkevicius.timer_event.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.lang.NonNull;
@@ -18,5 +21,14 @@ public class Event {
 
     public String getId() {
         return id;
+    }
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
     }
 }

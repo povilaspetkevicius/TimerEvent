@@ -11,7 +11,7 @@
 	<groupId>com.petkevicius</groupId>
 	<artifactId>timer-event</artifactId>
 	<version>0.0.1</version>
-	<name>timer-event</name>
+	<name>event-service</name>
 	<description>Event service of timer project</description>
 
 	<properties>
@@ -58,6 +58,18 @@
 			<artifactId>spring-data-rest-webmvc</artifactId>
 			<version>3.2.5.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+
 
 	</dependencies>
 	<build>

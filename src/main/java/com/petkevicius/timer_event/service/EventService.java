@@ -20,8 +20,19 @@ public class EventService {
         this.repository = repository;
     }
 
-    public Event createOrUpdateEvent(Event event) {
+    public Event createEvent(Event event) {
         return repository.save(event);
+    }
+
+    public Event updateEvent(String id, Event event) throws EventNotFoundException {
+        Optional<Event> existingEvent = repository.findById(id);
+        if (existingEvent.isPresent()){
+            Event mergedEvent = existingEvent.get();
+            mergedEvent.setName(event.getName());
+            return repository.save(mergedEvent);
+        } else {
+            throw new EventNotFoundException();
+        }
     }
 
 
@@ -37,8 +48,12 @@ public class EventService {
         return events;
     }
 
-    public void deleteEvent(String id) {
-        repository.deleteById(id);
+    public void deleteEvent(String id) throws EventNotFoundException {
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            throw new EventNotFoundException();
+        }
     }
 
 }
