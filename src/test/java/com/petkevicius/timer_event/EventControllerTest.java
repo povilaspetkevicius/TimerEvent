@@ -6,7 +6,7 @@ import com.petkevicius.timer_event.exception.EventNotFoundException;
 import com.petkevicius.timer_event.model.Event;
 import com.petkevicius.timer_event.service.EventService;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.FieldSetter;
