@@ -1,9 +1,5 @@
 version: '3'
 
-#networks:
-#  app-tier:
-#    driver: bridge
-
 services:
   timer-event:
     build: .
@@ -11,12 +7,8 @@ services:
       - "8080:8080"
     links:
       - redis
-#    networks:
-#      - app-tier
   redis:
     image: redis
     command: [ "redis-server", "--protected-mode", "no" ]
     ports:
       - "6379:6379"
-#    networks:
-#      - app-tier
