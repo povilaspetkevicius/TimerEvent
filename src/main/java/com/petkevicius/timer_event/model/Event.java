@@ -16,6 +16,8 @@ public class Event {
     @NotEmpty
     private String name;
 
+    private Long date;
+
     public String getId() {
         return id;
     }
@@ -27,5 +29,13 @@ public class Event {
 
     public void setName(@NonNull String name) {
         this.name = name;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,14 +22,23 @@ public class EventService {
     }
 
     public Event createEvent(Event event) {
+        if (event.getDate() == null) {
+            Date date = new Date();
+            event.setDate(date.getTime());
+        }
         return repository.save(event);
     }
 
     public Event updateEvent(String id, Event event) throws EventNotFoundException {
         Optional<Event> existingEvent = repository.findById(id);
-        if (existingEvent.isPresent()){
+        if (existingEvent.isPresent()) {
             Event mergedEvent = existingEvent.get();
-            mergedEvent.setName(event.getName());
+            if (!mergedEvent.getName().equals(event.getName())) {
+                mergedEvent.setName(event.getName());
+            }
+            if (!mergedEvent.getDate().equals(event.getDate())) {
+                mergedEvent.setDate(event.getDate());
+            }
             return repository.save(mergedEvent);
         } else {
             throw new EventNotFoundException();
