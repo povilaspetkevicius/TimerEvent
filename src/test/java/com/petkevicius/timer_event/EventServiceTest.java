@@ -111,11 +111,22 @@ public class EventServiceTest {
         Assertions.assertEquals(argumentForMethod.getValue(), deletableId);
     }
 
+    @Test
+    public void createEventShouldAddDatestampIfNotPresent() throws Exception{
+        ArgumentCaptor<Event> eventToBeSavedInDB = ArgumentCaptor.forClass(Event.class);
+        Event event = createMockEvent();
+        event.setDate(null);
+        service.createEvent(event);
+        verify(repositoryMock).save(eventToBeSavedInDB.capture());
+        Assertions.assertNotEquals(event, eventToBeSavedInDB);
+        Assertions.assertNotNull(eventToBeSavedInDB.getValue().getDate());
+    }
 
     public Event createMockEvent() throws NoSuchFieldException {
         Event testEvent = new Event();
         FieldSetter.setField(testEvent, testEvent.getClass().getDeclaredField("id"), "test-id");
         testEvent.setName("test-event");
+        testEvent.setDate(12345L);
         return testEvent;
     }
 }
